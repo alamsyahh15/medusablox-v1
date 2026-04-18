@@ -74,7 +74,15 @@ export default function OrderForm() {
     }
   };
 
-  const hargaBayar = getPrice(method, activeRobux);
+  const isPromoDay = () => {
+    const now = new Date();
+    return now.getFullYear() === 2026 && now.getMonth() === 3 && now.getDate() === 19;
+  };
+
+  const discountAmount = 20000;
+  const baseHargaBayar = getPrice(method, activeRobux);
+  const promoDiscount = isPromoDay() && activeRobux >= 2000 ? discountAmount : 0;
+  const hargaBayar = Math.max(0, baseHargaBayar - promoDiscount);
   const grossRobux = method === 'gamepass' ? Math.ceil(activeRobux / 0.7) : activeRobux;
 
   const normalizeEnvString = (value: unknown) => {
@@ -314,7 +322,14 @@ export default function OrderForm() {
                 <div className="w-px h-10 bg-border hidden sm:block"></div>
                 <div className="flex flex-col gap-1 w-full sm:w-auto text-right">
                   <span className="text-sm text-text-dim">Total Harga</span>
-                  <span className="font-display font-bold text-2xl text-text-main">Rp {hargaBayar.toLocaleString()}</span>
+                  {promoDiscount > 0 ? (
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-sm text-text-dim line-through">Rp {baseHargaBayar.toLocaleString()}</span>
+                      <span className="font-display font-bold text-2xl text-text-main">Rp {hargaBayar.toLocaleString()}</span>
+                    </div>
+                  ) : (
+                    <span className="font-display font-bold text-2xl text-text-main">Rp {hargaBayar.toLocaleString()}</span>
+                  )}
                 </div>
               </div>
             </div>
