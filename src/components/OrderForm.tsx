@@ -346,7 +346,7 @@ export default function OrderForm() {
               </div>
               <div>
                 <textarea
-                  placeholder="Catatan Tambahan (Opsional) - cth: Link private server gamepass"
+                  placeholder="Catatan Tambahan (Opsional) - cth: ID Gamepass"
                   rows={3}
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
@@ -411,8 +411,8 @@ export default function OrderForm() {
               )}
 
               {proofUrl && (
-                <div className="mt-4 rounded-xl overflow-hidden border border-border w-full max-w-[200px] aspect-auto">
-                  <img src={proofUrl} alt="Bukti Transfer" className="w-full h-auto object-cover" />
+                <div className="mt-4 rounded-xl overflow-hidden border border-border w-full max-w-[250px] mx-auto bg-surface sm:max-w-xs lg:max-w-[250px]">
+                  <img src={proofUrl} alt="Bukti Transfer" className="w-full h-auto object-contain max-h-[420px]" />
                 </div>
               )}
             </div>
