@@ -271,6 +271,48 @@ export default function OrderForm() {
                 </div>
               </div>
 
+              {method === 'gamepass' && (
+                <div className="border border-border rounded-2xl p-4 bg-input">
+                  <p className="text-sm text-text-main">
+                    Disini kak untuk caranya buat gamepass kak:
+                  </p>
+                  <ol className="mt-2 space-y-1 text-sm text-text-dim list-decimal list-inside">
+                    <li>
+                      Join group:{' '}
+                      <a
+                        href="https://www.roblox.com/share/g/704572305"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        https://www.roblox.com/share/g/704572305
+                      </a>
+                    </li>
+                    <li>
+                      🎥 Tutorial cara membuat Gamepass:{' '}
+                      <a
+                        href="https://www.youtube.com/watch?v=nuiYDwTrQlU"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        https://www.youtube.com/watch?v=nuiYDwTrQlU
+                      </a>
+                    </li>
+                  </ol>
+                  <div className="mt-4 rounded-xl overflow-hidden border border-border bg-surface">
+                    <iframe
+                      className="w-full aspect-video"
+                      src="https://www.youtube.com/embed/nuiYDwTrQlU"
+                      title="Tutorial Membuat Gamepass Roblox"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
+
               <div>
                 <label className="block text-xs font-semibold text-text-dim mb-3 uppercase tracking-wider">2. Pilih Nominal Robux</label>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
