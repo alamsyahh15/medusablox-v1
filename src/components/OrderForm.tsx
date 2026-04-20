@@ -116,7 +116,7 @@ export default function OrderForm() {
     applyPromoPrice(baseHargaBayar - 10000);
   }
 
-  if (isAfterOrAtWibTime(21, 0) &&  method === 'gamepass' && activeRobux >= 1000 && activeRobux % 1000 === 0) {
+  if (isAfterOrAtWibTime(21, 0) &&  method === 'group' && activeRobux >= 1000 && activeRobux % 1000 === 0) {
     const promoPrice = (activeRobux / 1000) * 122000;
     applyPromoPrice(promoPrice);
   }
