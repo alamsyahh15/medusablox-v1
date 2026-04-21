@@ -112,7 +112,7 @@ export default function OrderForm() {
     if (price < hargaBayar) hargaBayar = price;
   };
 
-  if (isAfterOrAtWibTime(17, 0) &&  method === 'group' && activeRobux >= 1000 && activeRobux % 1000 === 0) {
+  if (isAfterOrAtWibTime(20, 0) &&  method === 'group' && activeRobux >= 1000 && activeRobux % 1000 === 0) {
     const promoPrice = (activeRobux / 1000) * 110000;
     applyPromoPrice(promoPrice);
   }
