@@ -29,7 +29,7 @@ export default function OrderForm() {
   const [grossCopied, setGrossCopied] = useState(false);
 
   const qrisUrl =
-    'https://media.discordapp.net/attachments/1483131648517210184/1483135665213276240/Kode_QRIS_MEDUSABLOX_Elektronik_1.png?ex=69e4feb9&is=69e3ad39&hm=4098ed3ec01b42b99f7fa6d92dc587d34994e853ac0df0d36b8e983e6eb039de&';
+    'https://media.discordapp.net/attachments/1483131648517210184/1483135665213276240/Kode_QRIS_MEDUSABLOX_Elektronik_1.png?ex=69e84a79&is=69e6f8f9&hm=6b08a82cd08eeab021d707075e2eb2a722b020cd04059563687fc720d92b59dd&';
 
   // Load from draft
   useEffect(() => {
