@@ -326,19 +326,19 @@ export default function OrderForm() {
                     <li>
                       🎥 Tutorial cara membuat Gamepass:{' '}
                       <a
-                        href="https://youtube.com/shorts/z-NhWiqOzXk?si=Guc5LY7x47G6w7rM"
+                        href="https://www.youtube.com/watch?v=nuiYDwTrQlU"
                         target="_blank"
                         rel="noreferrer"
                         className="text-primary hover:underline"
                       >
-                        https://youtube.com/shorts/z-NhWiqOzXk?si=Guc5LY7x47G6w7rM
+                        https://www.youtube.com/watch?v=nuiYDwTrQlU
                       </a>
                     </li>
                   </ol>
                   <div className="mt-4 rounded-xl overflow-hidden border border-border bg-surface">
                     <iframe
                       className="w-full aspect-video"
-                      src=" https://youtube.com/shorts/z-NhWiqOzXk?si=Guc5LY7x47G6w7rM"
+                      src="https://www.youtube.com/embed/nuiYDwTrQlU"
                       title="Tutorial Membuat Gamepass Roblox"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       referrerPolicy="strict-origin-when-cross-origin"
