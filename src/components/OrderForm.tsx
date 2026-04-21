@@ -326,12 +326,12 @@ export default function OrderForm() {
                     <li>
                       🎥 Tutorial cara membuat Gamepass:{' '}
                       <a
-                        href="https://www.youtube.com/watch?v=nuiYDwTrQlU"
+                        href="https://youtube.com/shorts/z-NhWiqOzXk?si=Guc5LY7x47G6w7rM"
                         target="_blank"
                         rel="noreferrer"
                         className="text-primary hover:underline"
                       >
-                        https://www.youtube.com/watch?v=nuiYDwTrQlU
+                        https://youtube.com/shorts/z-NhWiqOzXk?si=Guc5LY7x47G6w7rM
                       </a>
                     </li>
                   </ol>
