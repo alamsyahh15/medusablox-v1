@@ -117,6 +117,16 @@ export default function OrderForm() {
     applyPromoPrice(promoPrice);
   }
 
+  if(method === 'gamepass' && activeRobux >= 10000) {
+    const promoPrice = ((activeRobux / 1000) * 115000);
+    applyPromoPrice(promoPrice);
+  }
+  
+  if(method === 'group' && activeRobux >= 10000) {
+    const promoPrice = ((activeRobux / 1000) * 120000);
+    applyPromoPrice(promoPrice);
+  }
+
   hargaBayar = Math.max(0, hargaBayar);
   const grossRobux = method === 'gamepass' ? Math.ceil(activeRobux / 0.7) : activeRobux;
 
