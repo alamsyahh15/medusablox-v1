@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, CheckCircle, AlertCircle, Loader2, Copy, Download } from 'lucide-react';
+import qrisUrl from '../../assets/qr_payment.png';
 
 interface Order {
   id: string;
@@ -27,9 +28,6 @@ export default function OrderForm() {
   const [uploadError, setUploadError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [grossCopied, setGrossCopied] = useState(false);
-
-  const qrisUrl =
-    'https://media.discordapp.net/attachments/1483131648517210184/1483135665213276240/Kode_QRIS_MEDUSABLOX_Elektronik_1.png?ex=69e84a79&is=69e6f8f9&hm=6b08a82cd08eeab021d707075e2eb2a722b020cd04059563687fc720d92b59dd&';
 
   // Load from draft
   useEffect(() => {
