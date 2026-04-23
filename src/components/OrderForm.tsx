@@ -181,7 +181,7 @@ export default function OrderForm() {
     return now.minute >= minute;
   };
 
-  const discountAmount = 20000;
+  const discountAmount = 15000;
   const baseHargaBayar = getPrice(method, activeRobux);
   let hargaBayar = baseHargaBayar;
 
