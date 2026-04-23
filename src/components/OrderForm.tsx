@@ -190,7 +190,7 @@ export default function OrderForm() {
     if (price < hargaBayar) hargaBayar = price;
   };
 
-  if (isAfterOrAtWibTime(13, 0) &&  method === 'gamepass' && activeRobux >= 2000 && activeRobux % 1000 === 0) {
+  if (isAfterOrAtWibTime(19, 0) &&  method === 'gamepass' && activeRobux >= 2000 && activeRobux % 1000 === 0) {
     const promoPrice = ((activeRobux / 1000) * 120000) - discountAmount;
     applyPromoPrice(promoPrice);
   }
