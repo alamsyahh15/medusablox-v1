@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, CheckCircle, AlertCircle, Loader2, Copy, Download } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Upload, CheckCircle, AlertCircle, Loader2, Copy, Download, XCircle } from 'lucide-react';
 import qrisUrl from '../../assets/qr_payment.png';
 
 interface Order {
@@ -28,6 +28,21 @@ export default function OrderForm() {
   const [uploadError, setUploadError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [grossCopied, setGrossCopied] = useState(false);
+  const [groupCheckStatus, setGroupCheckStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid' | 'error'>('idle');
+  const [groupCheckDays, setGroupCheckDays] = useState<number | null>(null);
+  const [groupCheckMessage, setGroupCheckMessage] = useState('');
+  const groupCheckRequestIdRef = useRef(0);
+  const lastCheckedUsernameRef = useRef('');
+
+  useEffect(() => {
+    if (method !== 'group') {
+      groupCheckRequestIdRef.current += 1;
+      lastCheckedUsernameRef.current = '';
+      setGroupCheckStatus('idle');
+      setGroupCheckDays(null);
+      setGroupCheckMessage('');
+    }
+  }, [method]);
 
   // Load from draft
   useEffect(() => {
@@ -52,6 +67,71 @@ export default function OrderForm() {
   }, [username, discord, method]);
 
   const activeRobux = robuxAmount === 'custom' ? parseInt(customRobux || '0') : parseInt(robuxAmount);
+
+  const verifyGroupEligibility = async (rawUsername: string) => {
+    if (method !== 'group') {
+      setGroupCheckStatus('idle');
+      setGroupCheckDays(null);
+      setGroupCheckMessage('');
+      return;
+    }
+
+    const normalizedUsername = rawUsername.trim();
+    if (!normalizedUsername) {
+      setGroupCheckStatus('idle');
+      setGroupCheckDays(null);
+      setGroupCheckMessage('');
+      return;
+    }
+
+    if (
+      normalizedUsername.toLowerCase() === lastCheckedUsernameRef.current.toLowerCase() &&
+      (groupCheckStatus === 'valid' || groupCheckStatus === 'invalid')
+    ) {
+      return;
+    }
+
+    lastCheckedUsernameRef.current = normalizedUsername;
+    const requestId = ++groupCheckRequestIdRef.current;
+
+    setGroupCheckStatus('checking');
+    setGroupCheckDays(null);
+    setGroupCheckMessage('');
+
+    try {
+      const res = await fetch('/api/roblox-group-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: normalizedUsername })
+      });
+
+      const data = await res.json();
+
+      if (requestId !== groupCheckRequestIdRef.current) return;
+
+      if (!data?.ok) {
+        setGroupCheckStatus('error');
+        setGroupCheckDays(null);
+        setGroupCheckMessage(data?.error || 'Gagal cek status group.');
+        return;
+      }
+
+      const status = data?.status as string | undefined;
+      const days = typeof data?.days === 'number' ? data.days : null;
+      const message = typeof data?.message === 'string' ? data.message : '';
+
+      setGroupCheckDays(days);
+      setGroupCheckMessage(message);
+
+      if (status === 'valid') setGroupCheckStatus('valid');
+      else setGroupCheckStatus('invalid');
+    } catch (err) {
+      if (requestId !== groupCheckRequestIdRef.current) return;
+      setGroupCheckStatus('error');
+      setGroupCheckDays(null);
+      setGroupCheckMessage('Gagal cek status group.');
+    }
+  };
 
   // Calculator Logic
   const getPrice = (method: string, amount: number) => {
@@ -419,14 +499,55 @@ export default function OrderForm() {
               <label className="block text-xs font-semibold text-text-dim mb-2 uppercase tracking-wider">3. Detail Data</label>
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Username Roblox"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full bg-input border border-border rounded-xl px-4 py-3 text-text-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Username Roblox"
+                      value={username}
+                      onChange={(e) => {
+                        setUsername(e.target.value);
+                        setGroupCheckStatus('idle');
+                        setGroupCheckDays(null);
+                        setGroupCheckMessage('');
+                      }}
+                      onBlur={() => {
+                        if (method === 'group') void verifyGroupEligibility(username);
+                      }}
+                      className={`w-full bg-input border border-border rounded-xl px-4 py-3 ${method === 'group' ? 'pr-11' : ''} text-text-main focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary`}
+                    />
+                    {method === 'group' && groupCheckStatus === 'checking' && (
+                      <Loader2 className="w-5 h-5 text-primary animate-spin absolute right-4 top-1/2 -translate-y-1/2" />
+                    )}
+                    {method === 'group' && groupCheckStatus === 'valid' && (
+                      <CheckCircle className="w-5 h-5 text-green-500 absolute right-4 top-1/2 -translate-y-1/2" />
+                    )}
+                    {method === 'group' && groupCheckStatus === 'invalid' && (
+                      <XCircle className="w-5 h-5 text-red-500 absolute right-4 top-1/2 -translate-y-1/2" />
+                    )}
+                    {method === 'group' && groupCheckStatus === 'error' && (
+                      <AlertCircle className="w-5 h-5 text-yellow-500 absolute right-4 top-1/2 -translate-y-1/2" />
+                    )}
+                  </div>
+
+                  {method === 'group' && groupCheckStatus === 'invalid' && (
+                    <div className="mt-2 text-xs text-red-500">
+                      <div>{groupCheckMessage || 'Join Group Komunitas Kami min 6 hari'}</div>
+                      <a
+                        href="https://www.roblox.com/share/g/704572305"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        Join Group Komunitas Kami min 6 hari
+                      </a>
+                    </div>
+                  )}
+                  {method === 'group' && (groupCheckStatus === 'checking' || groupCheckStatus === 'valid' || groupCheckStatus === 'error') && groupCheckMessage && (
+                    <div className={`mt-2 text-xs ${groupCheckStatus === 'valid' ? 'text-green-500' : groupCheckStatus === 'error' ? 'text-yellow-500' : 'text-text-dim'}`}>
+                      {groupCheckDays != null && groupCheckStatus === 'valid' ? `${groupCheckMessage} (${groupCheckDays} hari)` : groupCheckMessage}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <input
