@@ -190,15 +190,15 @@ export default function OrderForm() {
     if (price < hargaBayar) hargaBayar = price;
   };
 
-  if (isAfterOrAtWibTime(16, 0) && activeRobux >= 1000 && activeRobux % 1000 === 0) {
-    let promoPrice = 0;
-    if ( method === 'gamepass'){
-      promoPrice = ((activeRobux / 1000) * 120000) - discountAmount;
-    }else{
-      promoPrice = ((activeRobux / 1000) * 125000) - (activeRobux / 1000 * discountAmount);
-    }
-    applyPromoPrice(promoPrice);
-  }
+  // if (isAfterOrAtWibTime(16, 0) && activeRobux >= 1000 && activeRobux % 1000 === 0) {
+  //   let promoPrice = 0;
+  //   if ( method === 'gamepass'){
+  //     promoPrice = ((activeRobux / 1000) * 120000) - discountAmount;
+  //   }else{
+  //     promoPrice = ((activeRobux / 1000) * 125000) - (activeRobux / 1000 * discountAmount);
+  //   }
+  //   applyPromoPrice(promoPrice);
+  // }
   
   if(method === 'group' && activeRobux >= 10000) {
     const promoPrice = ((activeRobux / 1000) * 120000);
