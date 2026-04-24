@@ -181,7 +181,7 @@ export default function OrderForm() {
     return now.minute >= minute;
   };
 
-  const discountAmount = 15000;
+  const discountAmount = 5000;
   const baseHargaBayar = getPrice(method, activeRobux);
   let hargaBayar = baseHargaBayar;
 
@@ -190,8 +190,13 @@ export default function OrderForm() {
     if (price < hargaBayar) hargaBayar = price;
   };
 
-  if (isAfterOrAtWibTime(19, 0) &&  method === 'gamepass' && activeRobux >= 2000 && activeRobux % 1000 === 0) {
-    const promoPrice = ((activeRobux / 1000) * 120000) - discountAmount;
+  if (isAfterOrAtWibTime(19, 0) && activeRobux >= 2000 && activeRobux % 1000 === 0) {
+    let promoPrice = 0;
+    if ( method === 'gamepass'){
+      promoPrice = ((activeRobux / 1000) * 120000) - discountAmount;
+    }else{
+      promoPrice = ((activeRobux / 1000) * 125000) - (activeRobux / 1000 * discountAmount);
+    }
     applyPromoPrice(promoPrice);
   }
   
