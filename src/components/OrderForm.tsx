@@ -173,9 +173,9 @@ export default function OrderForm() {
     if (!isAfterOrAtWibTime(19, 45)) return 0;
     if (method === 'gamepass' && activeRobux >= 2000) return 20000;
     if (method !== 'group') return 0;
-    if (activeRobux === 2000) return 20000;
-    if (activeRobux === 4000) return 35000;
-    if (activeRobux === 5000) return 45000;
+    if (activeRobux >= 2000) return 20000;
+    if (activeRobux >= 4000) return 35000;
+    if (activeRobux >= 5000) return 45000;
     if (activeRobux >= 10000) return 80000;
     return 0;
   })();
