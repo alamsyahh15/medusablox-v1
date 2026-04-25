@@ -152,60 +152,34 @@ export default function OrderForm() {
     }
   };
 
-  const getWibParts = () => {
+  const baseHargaBayar = getPrice(method, activeRobux);
+  const isAfterOrAtWibTime = (hour: number, minute: number) => {
     const parts = new Intl.DateTimeFormat('en-US', {
       timeZone: 'Asia/Jakarta',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
       hour12: false
     }).formatToParts(new Date());
 
     const get = (type: string) => parts.find((p) => p.type === type)?.value ?? '';
+    const nowHour = Number(get('hour'));
+    const nowMinute = Number(get('minute'));
 
-    return {
-      year: Number(get('year')),
-      month: Number(get('month')),
-      day: Number(get('day')),
-      hour: Number(get('hour')),
-      minute: Number(get('minute'))
-    };
+    if (nowHour > hour) return true;
+    if (nowHour < hour) return false;
+    return nowMinute >= minute;
   };
-
-  const isAfterOrAtWibTime = (hour: number, minute: number) => {
-    const now = getWibParts();
-    if (now.hour > hour) return true;
-    if (now.hour < hour) return false;
-    return now.minute >= minute;
-  };
-
-  const discountAmount = 5000;
-  const baseHargaBayar = getPrice(method, activeRobux);
-  let hargaBayar = baseHargaBayar;
-
-  const applyPromoPrice = (price: number) => {
-    if (price <= 0) return;
-    if (price < hargaBayar) hargaBayar = price;
-  };
-
-  // if (isAfterOrAtWibTime(16, 0) && activeRobux >= 1000 && activeRobux % 1000 === 0) {
-  //   let promoPrice = 0;
-  //   if ( method === 'gamepass'){
-  //     promoPrice = ((activeRobux / 1000) * 120000) - discountAmount;
-  //   }else{
-  //     promoPrice = ((activeRobux / 1000) * 125000) - (activeRobux / 1000 * discountAmount);
-  //   }
-  //   applyPromoPrice(promoPrice);
-  // }
-  
-  if(method === 'group' && activeRobux >= 10000) {
-    const promoPrice = ((activeRobux / 1000) * 120000);
-    applyPromoPrice(promoPrice);
-  }
-
-  hargaBayar = Math.max(0, hargaBayar);
+  const promoDiscount = (() => {
+    if (!isAfterOrAtWibTime(16, 0)) return 0;
+    if (method === 'gamepass' && activeRobux === 2000) return 20000;
+    if (method !== 'group') return 0;
+    if (activeRobux === 2000) return 20000;
+    if (activeRobux === 4000) return 35000;
+    if (activeRobux === 5000) return 45000;
+    if (activeRobux === 10000) return 80000;
+    return 0;
+  })();
+  const hargaBayar = Math.max(0, baseHargaBayar - promoDiscount);
   const grossRobux = method === 'gamepass' ? Math.ceil(activeRobux / 0.7) : activeRobux;
 
   const normalizeEnvString = (value: unknown) => {
