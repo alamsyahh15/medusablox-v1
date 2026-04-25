@@ -171,12 +171,12 @@ export default function OrderForm() {
   };
   const promoDiscount = (() => {
     if (!isAfterOrAtWibTime(16, 0)) return 0;
-    if (method === 'gamepass' && activeRobux === 2000) return 20000;
+    if (method === 'gamepass' && activeRobux >= 2000) return 20000;
     if (method !== 'group') return 0;
     if (activeRobux === 2000) return 20000;
     if (activeRobux === 4000) return 35000;
     if (activeRobux === 5000) return 45000;
-    if (activeRobux === 10000) return 80000;
+    if (activeRobux >= 10000) return 80000;
     return 0;
   })();
   const hargaBayar = Math.max(0, baseHargaBayar - promoDiscount);
