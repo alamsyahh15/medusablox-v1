@@ -170,7 +170,7 @@ export default function OrderForm() {
     return nowMinute >= minute;
   };
   const promoDiscount = (() => {
-    if (!isAfterOrAtWibTime(16, 0)) return 0;
+    if (!isAfterOrAtWibTime(19, 45)) return 0;
     if (method === 'gamepass' && activeRobux >= 2000) return 20000;
     if (method !== 'group') return 0;
     if (activeRobux === 2000) return 20000;
