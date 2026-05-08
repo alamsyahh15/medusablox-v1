@@ -140,7 +140,7 @@ export default defineConfig(({mode}) => {
               const nowMs = Date.now();
               const days = Math.floor((nowMs - joinedAtMs) / (1000 * 60 * 60 * 24));
               const safeDays = Number.isFinite(days) ? Math.max(0, days) : null;
-              const eligible = typeof safeDays === 'number' && safeDays >= 4;
+              const eligible = typeof safeDays === 'number' && safeDays >= 3;
 
               res.statusCode = 200;
               res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -150,7 +150,7 @@ export default defineConfig(({mode}) => {
                   status: eligible ? 'valid' : 'invalid',
                   userId,
                   days: safeDays,
-                  message: eligible ? 'Sudah join group ≥ 4 hari.' : `Kamu sudah join group, tapi belum 4 hari (baru ${safeDays ?? 0} hari).`
+                  message: eligible ? 'Sudah join group ≥ 3 hari.' : `Kamu sudah join group, tapi belum 3 hari (baru ${safeDays ?? 0} hari).`
                 })
               );
             } catch {

@@ -113,14 +113,14 @@ export const handler = async (event: HandlerEvent): Promise<HandlerResponse> => 
     }
 
     const days = daysSince(createTime);
-    const eligible = typeof days === 'number' && days >= 4;
+    const eligible = typeof days === 'number' && days >= 3;
 
     return json(200, {
       ok: true,
       status: eligible ? 'valid' : 'invalid',
       userId,
       days,
-      message: eligible ? 'Sudah join group ≥ 4 hari.' : `Kamu sudah join group, tapi belum 4 hari (baru ${days ?? 0} hari).`
+      message: eligible ? 'Sudah join group ≥ 3 hari.' : `Kamu sudah join group, tapi belum 3 hari (baru ${days ?? 0} hari).`
     });
   } catch {
     return json(500, { ok: false, error: 'failed to check membership' });

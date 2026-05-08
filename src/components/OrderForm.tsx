@@ -511,14 +511,14 @@ export default function OrderForm() {
 
                   {method === 'group' && groupCheckStatus === 'invalid' && (
                     <div className="mt-2 text-xs text-red-500">
-                      <div>{groupCheckMessage || 'Join Group Komunitas Kami min 4 hari'}</div>
+                      <div>{groupCheckMessage || 'Join Group Komunitas Kami min 3 hari'}</div>
                       <a
                         href="https://www.roblox.com/share/g/704572305"
                         target="_blank"
                         rel="noreferrer"
                         className="text-primary hover:underline"
                       >
-                        Join Group Komunitas Kami min 4 hari
+                        Join Group Komunitas Kami min 3 hari
                       </a>
                     </div>
                   )}
